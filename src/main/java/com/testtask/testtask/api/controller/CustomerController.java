@@ -1,9 +1,11 @@
 package com.testtask.testtask.api.controller;
 
+import com.testtask.testtask.api.exeption.ValidationException;
 import com.testtask.testtask.api.model.Customer;
 import com.testtask.testtask.api.model.CustomerEntity;
 import com.testtask.testtask.api.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

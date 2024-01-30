@@ -1,9 +1,11 @@
 package com.testtask.testtask.api.service;
 
 import com.testtask.testtask.api.dao.CustomerRepository;
+import com.testtask.testtask.api.exeption.ValidationException;
 import com.testtask.testtask.api.model.Customer;
 import com.testtask.testtask.api.model.CustomerEntity;
 import lombok.NoArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -82,15 +84,18 @@ public class CustomerService {
                 customerEntity.getPhone());
     }
 
+    @SneakyThrows
     private boolean validationCustomer(CustomerEntity customerEntity){
         if(!customerEntity.getEmail().matches(EMAIL))
-            return false;
+            throw new ValidationException("Invalid email.");
         if(!customerRepository.findByEmail(customerEntity.getEmail()).isEmpty())
-            return false;
+            throw new ValidationException("Email already used.");
         if(!customerEntity.getFullName().matches(FULL_NAME))
-            return false;
+            throw new ValidationException("Invalid full name.");
         if(!(customerEntity.getPhone() == null))
-            return customerEntity.getPhone().matches(PHONE);
+            if(!customerEntity.getPhone().matches(PHONE)){
+                throw new ValidationException("Invalid phone number.");
+            }
         return true;
     }
 }
